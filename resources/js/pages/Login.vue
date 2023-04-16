@@ -1,138 +1,96 @@
 <template>
-<v-app>
+  <v-app>
     <div>
-    <v-sheet
-    style="max-height: 101.2vh;"
-    fluid
-    >
-    <div class="text-center login">
-                    <v-card
-                    width="500"
-                    class="mx-auto"
-                    elevation="3"
-                    color="white"
-                    >
-                    <v-card>
-                        <div
-                         style="padding-top: 4%"
-                        >
-                        <v-img 
-                        contain
-                        :src="logocard"
-                        max-height="30%"
-                        width="50%"
-                        class="mx-auto"
-                        />
-                    </div>
+      <v-sheet style="max-height: 101.2vh;" fluid>
+        <div class="text-center login">
+          <v-card width="500" class="mx-auto" elevation="3" color="white">
+            <v-card>
+              <div style="padding-top: 4%">
+                <v-img contain :src="logocard" max-height="30%" width="50%" class="mx-auto" />
+              </div>
 
-                    <v-col>
-                        <v-text-field
-                            v-model="email"
-                            filled
-                            rounded
-                            dense
-                            label="Email"
-                        ></v-text-field>
-                
-                        <v-text-field
-                            v-model="password"
-                            filled
-                            rounded
-                            dense
-                            :type="isPasswordVisible ? 'text' : 'password'"
-                            label="Password"
-                            placeholder="············"
-                            :append-icon="isPasswordVisible ? icons.mdiEyeOffOutline : icons.mdiEyeOutline"
-                            @click:append="isPasswordVisible = !isPasswordVisible"
-                        
-                        ></v-text-field>
-                        
-                        <v-card-actions>
-                        <v-spacer></v-spacer>
-                            <v-btn
-                                rounded
-                                color="success"
-                                class= "mb-2 px-7"
-                                @click="Login()"
-                            >
-                                Login
-                            </v-btn>
-                            <v-btn
-                                rounded
-                                color="primary"
-                                class= "mb-2 px-3"
-                            >
-                                Register
-                            </v-btn>
-                        <v-spacer></v-spacer>
-                        </v-card-actions>
-                    </v-col>
-                    </v-card>
-                    </v-card>
-                </div>
-     
-    </v-sheet>
-</div>
-     
+              <v-col>
+                <v-text-field v-model="email" dense filled label="Email"></v-text-field>
 
-    <!-- <v-card
-      class="mx-auto"
-      max-width="344"
-      padding-top="20px"
-      outlined
-    >
-      
-  
-      <v-card-actions>
-      
-      </v-card-actions>
-    </v-card> -->
-</v-app>
+                <v-text-field
+                  v-model="password"
+                  dense
+                  filled
+                  :type="isPasswordVisible ? 'text' : 'password'"
+                  label="Password"
+                  placeholder="············"
+                  :append-icon="isPasswordVisible ? icons.mdiEyeOffOutline : icons.mdiEyeOutline"
+                  @click:append="isPasswordVisible = !isPasswordVisible"
+                ></v-text-field>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" class="mb-2 px-7" @click="Login()">Login</v-btn>
+                  <v-spacer></v-spacer>
+                </v-card-actions>
+                <fail-snack-bar v-model="show" />
+              </v-col>
+            </v-card>
+          </v-card>
+        </div>
+      </v-sheet>
+    </div>
+  </v-app>
 </template>
 
 <script>
-import logo from '../assets/logo.jpg'
-import logocard from '../assets/logocard.png'
-import { mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js'
+import logo from "../assets/logo.jpg";
+import logocard from "../assets/logo.jpg";
+import { mdiEyeOutline, mdiEyeOffOutline } from "@mdi/js";
 import { login } from "../repositories/user.api";
+import FailSnackBar from "../components/snackbar.vue";
+
 export default {
-   data() {
+  components: {
+    FailSnackBar,
+  },
+  data() {
     return {
-        isPasswordVisible: false,
-        icons: {
-            mdiEyeOutline,
-            mdiEyeOffOutline,
-        },
-        logo, 
-        logocard,
-        email: '',
-        password: '',
-    }
-   },
-   methods : {
-        Login() {
-          const login_data = {
-              email: this.email,
-              password: this.password
-          }
-          login(login_data).then(({data}) => {
-            //   this.$store.commit('login', data)
-              localStorage.setItem('token', data.access_token)
-              this.routeEnter();
-          }).catch((errors)=> {
-              console.log(errors)
-            //   this.snackbar = true
-              
-          })
-        },
-        routeEnter(){
-            this.$router.push('/dashboard');
-        },
-        routeAttend(){
-            this.$router.push('/attendance');
-        }
-   }
-}
+      isPasswordVisible: false,
+      icons: {
+        mdiEyeOutline,
+        mdiEyeOffOutline,
+      },
+      logo,
+      logocard,
+      email: "",
+      password: "",
+    };
+  },
+  methods: {
+    Login() {
+      const login_data = {
+        email: this.email,
+        password: this.password,
+      };
+      login(login_data)
+        .then(({ data }) => {
+          //   this.$store.commit('login', data)
+          localStorage.setItem("token", data.access_token);
+          this.routeEnter();
+        })
+        .catch((errors) => {
+          console.log(errors);
+          // Call the showSnackBar method when there is an error
+            window.alert("Wrong Credentials")
+            this.email = ""
+            this.password = ""
+});
+    },
+    routeEnter() {
+      this.$router.push("/");
+    },
+    routeAttend() {
+      this.$router.push("/attendance");
+    },
+   
+  },
+};
 </script>
 <style>
 /* .login-page {

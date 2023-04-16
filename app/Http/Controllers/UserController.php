@@ -37,4 +37,31 @@ class UserController extends Controller
         $token = $user->createToken('authToken')->accessToken;
         return response(['user' => Auth::user(), 'access_token' => $token]);
     }
+
+    public function addRegister(Request $request) {
+        $data = new User;
+
+        $data->stud_no = $request->stud_no;
+        $data->last_name = $request->last_name;
+        $data->first_name = $request->first_name;
+        $data->mid_name = $request->mid_name;
+        $data->suffix = $request->suffix;
+        $data->program = $request->program;
+        $data->dobirth = $request->dobirth;
+        $data->brgy = $request->brgy;
+        $data->town = $request->town;
+        $data->province = $request->province;
+        $data->parent_first = $request->parent_first;
+        $data->parent_last = $request->parent_last;
+        $data->parent_mid = $request->parent_mid;
+        $data->save();
+
+        return $data;
+    }
+
+    public function displayStudent(){
+        $data = User::where('user_type', 0)->get();
+        return $data;
+    }
+
 }

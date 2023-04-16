@@ -9,7 +9,7 @@ import Chat from '../layouts/includes/chat/index.vue'
 import Settings from '../pages/settings'
 
 // event 
-import Event from '../pages/Admin/Event/index.vue'
+import Enrollee from '../pages/Admin/Enrollee/index.vue'
 
 // settings 
 import NavSetting from '../pages/settings/navsetting.vue'
@@ -22,42 +22,56 @@ import Attendance from '../pages/Attendance.vue'
 import AllItems from '../pages/Items/index.vue'
 
 
+// student  
+
+import Students from '../pages/Admin/Student'
+
+
 export default [{
     path: '/',
     component: Main,
     meta: { authOnly: true },
     children: [
-        {
-            path: '/',
-            component: Dashboard,
-            meta: { authOnly: true },
-        },
-        {
-            path: '/dashboard',
-            name: 'dashboard',
-            component: Dashboard,
-            meta: { authOnly: true },
-        },
+        // {
+        //     path: '/',
+        //     component: Dashboard,
+        //     meta: { authOnly: true },
+        // },
+        // {
+        //     path: '/dashboard',
+        //     name: 'dashboard',
+        //     component: Dashboard,
+        //     meta: { authOnly: true },
+        // },
         // items 
 
-        {
-            path: '/allitems',
-            component: AllItems,
-            meta: { authOnly: true },
-            children: [
-                {
-                    path: '/allitems',
-                    name: 'items',
-                    meta: { authOnly: true },
-                    component : AllItems
-                },
-            ]
-        },
+        // {
+        //     path: '/allitems',
+        //     component: AllItems,
+        //     meta: { authOnly: true },
+        //     children: [
+        //         {
+        //             path: '/allitems',
+        //             name: 'items',
+        //             meta: { authOnly: true },
+        //             component : AllItems
+        //         },
+        //     ]
+        // },
         // employee 
         {
-            path: '/attendee',
-            name: 'attendee',
-            component: Employee,
+            path: '/',
+            name: 'student',
+            component: Students,
+            meta: { authOnly: true },
+            children : [
+               
+            ]
+        },
+        {
+            path: '/students',
+            name: 'student',
+            component: Students,
             meta: { authOnly: true },
             children : [
                
@@ -71,9 +85,9 @@ export default [{
         },
 
         {
-            path: '/event',
-            name: 'event',
-            component: Event,
+            path: '/enrollee',
+            name: 'enrollee',
+            component: Enrollee,
             meta: { authOnly: true },
         },
 

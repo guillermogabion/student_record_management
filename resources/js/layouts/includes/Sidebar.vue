@@ -45,16 +45,17 @@
    </v-navigation-drawer>
 </template>
 <script>
-import logocard from '../../assets/logocard.png'
+import logocard from '../../assets/logo.jpg'
 export default {
     data : () => ({
         logocard,
         items : [
-            {title : 'Dashboard', icon: 'mdi-view-dashboard', route: '/'},
-            {title : 'Items', icon: 'mdi-view-dashboard', route: '/allitems'},
-            {title : 'Participants', icon: 'mdi mdi-account-group', route: '/attendee'},
-            {title : 'Events', icon: 'mdi mdi-account-group', route: '/event'},
-            {title : 'Settings', icon: 'mdi-view-dashboard', route: '/setting'},
+            // {title : 'Dashboard', icon: 'mdi-view-dashboard', route: '/'},
+            // {title : 'Items', icon: 'mdi-view-dashboard', route: '/allitems'},
+            {title : 'Student Record', icon: 'mdi mdi-account-group', route: '/'},
+            // {title : 'Participants', icon: 'mdi mdi-account-group', route: '/attendee'},
+            // {title : 'Enrollee', icon: 'mdi mdi-account-group', route: '/enrollee'},
+            // {title : 'Settings', icon: 'mdi-view-dashboard', route: '/setting'}, 
         //     {
         //         icon: 'mdi mdi-notebook-multiple',
         //         'icon-alt': 'mdi mdi-notebook-multiple',
@@ -146,12 +147,8 @@ export default {
 }
 
 .v-list-item--active {
-    background-color: #4caf50;
+    background-color: #2d80fd;
     color: #f4f4f4 !important;
-    border-top-left-radius: 10% 50%;
-    border-bottom-left-radius: 10% 50%;
-    border-top-right-radius: 10% 50%;
-    border-bottom-right-radius: 10% 50%;
     margin: 4%;
     padding-bottom: 2%;
     
@@ -159,12 +156,9 @@ export default {
 
 
 .hover:hover {
-    background-color: #4caf50!important;
+    background-color: #1f34f7!important;
     color: #040404 !important;
-    border-top-left-radius: 10% 50%;
-    border-bottom-left-radius: 10% 50%;
-    border-top-right-radius: 10% 50%;
-    border-bottom-right-radius: 10% 50%;
+   
     margin: 4%;
     padding-bottom: 2%;
     cursor: pointer;

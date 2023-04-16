@@ -13,9 +13,7 @@
                
             </transition>
         </v-container>
-        <v-btn fab dark large color="#4caf50" fixed right bottom @click="$router.push('/')">
-        <v-icon dark>mdi mdi-chat</v-icon>
-        </v-btn>
+       
         </v-main> 
        
 
