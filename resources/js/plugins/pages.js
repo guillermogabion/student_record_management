@@ -19,8 +19,7 @@ import Category from '../pages/settings/includes/category.vue'
 
 import Attendance from '../pages/Attendance.vue'
 
-import AllItems from '../pages/Items/index.vue'
-
+import StudentsSubj from '../pages/Admin/StudentSubj'
 
 // student  
 
@@ -72,6 +71,15 @@ export default [{
             path: '/students',
             name: 'student',
             component: Students,
+            meta: { authOnly: true },
+            children : [
+               
+            ]
+        },
+        {
+            path: '/student-subjects',
+            name: 'student-subjects',
+            component: StudentsSubj,
             meta: { authOnly: true },
             children : [
                

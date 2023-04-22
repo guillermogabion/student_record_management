@@ -53,6 +53,7 @@ export default {
             // {title : 'Dashboard', icon: 'mdi-view-dashboard', route: '/'},
             // {title : 'Items', icon: 'mdi-view-dashboard', route: '/allitems'},
             {title : 'Student Record', icon: 'mdi mdi-account-group', route: '/'},
+            {title : 'Students Subjects', icon: 'mdi mdi-account-group', route: '/student-subjects'},
             // {title : 'Participants', icon: 'mdi mdi-account-group', route: '/attendee'},
             // {title : 'Enrollee', icon: 'mdi mdi-account-group', route: '/enrollee'},
             // {title : 'Settings', icon: 'mdi-view-dashboard', route: '/setting'}, 

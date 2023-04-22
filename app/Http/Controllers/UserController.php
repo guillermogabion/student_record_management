@@ -64,4 +64,9 @@ class UserController extends Controller
         return $data;
     }
 
+    public function displaySubjects(){
+        $data = User::with('record')->get();
+        return $data;
+    }
+
 }

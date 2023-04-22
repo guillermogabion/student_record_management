@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Record;
 class RecordController extends Controller
 {
     //
@@ -11,7 +11,9 @@ class RecordController extends Controller
     public function store(Request $request) {
         $record = new Record;
         $record = $request->all();
-        User::insert($record);
+        $data = Record::insert($record);
+
+        return $data;
     }
 
     public function update($id, Request $request){

@@ -229,40 +229,34 @@
         </v-dialog>
         <v-dialog
         v-model="subjDialog"
-        max-width="500px"
+        max-width="700px"
         >
         <v-card>
+          <v-card-title>
+          Add Enrolled Subject
+
+          </v-card-title>
+          <v-text-field v-model="editedItem.id" :label="'Course Code'"></v-text-field>
+
           <v-container>
            <div v-for="(payloads, index) in payload" :key="index">
-             <v-row>
-               
-                  <label>Course {{(index + 1)}}</label>
-                   <v-col
-                    cols="12"
-                    sm="6"
-                    md="6"
-                    >
-                      <v-text-field v-model="payloads.course_code" :label="'Course Code '"></v-text-field>
-                      <v-text-field v-model="payloads.course" :label="'Course '"></v-text-field>
-                   </v-col>
-                    <v-col
-                    cols="12"
-                    sm="6"
-                    md="6"
-                    >
-                      <v-text-field v-model="payloads.unit" :label="'Unit'"></v-text-field>
-                      <v-text-field v-model="payloads.school_year" :label="'School Year'"></v-text-field>
-                  </v-col>
-              </v-row>
+           
+              <label>Course {{(index + 1)}}</label>
+
+                    <v-text-field v-model="payloads.course_code" :label="'Course Code'"></v-text-field>
+                    <v-text-field v-model="payloads.course" :label="'Course'"></v-text-field>
+                    <v-text-field type="number" v-model="payloads.unit" :label="'Unit'"></v-text-field>
+                    <v-text-field v-model="payloads.school_year" :label="'School Year'"></v-text-field>
+                    <v-btn @click="removeField(index)" class="mb-2">
+                      <v-icon>mdi-minus</v-icon>
+                    </v-btn>
           </div>
-            <v-row>
-            <v-col cols="12" sm="6" md="6">
-              <v-btn color="primary" @click="viewpayload()" :disabled="payload.length == 0">Submit</v-btn>
-            </v-col>
-            <v-col cols="12" sm="6" md="6">
-              <v-btn color="primary" @click="addField()" :disabled="payload.length >= 10">Add Field</v-btn>
-            </v-col>
-          </v-row>
+              <v-btn text elevation="0" @click="addField()" :disabled="payload.length >= 10"> 
+                <v-icon dark>
+                  mdi-plus
+                </v-icon>
+              </v-btn>
+              <v-btn color="primary" @click="submitSubject()" :disabled="payload.length == 0">Submit</v-btn>
           </v-container>
         </v-card>
         </v-dialog>
@@ -304,6 +298,7 @@
 import axios from '../../../plugins/axios'
   export default {
     data: () => ({
+    
       dialog: false,
       dialogDelete: false,
       subjDialog: false,
@@ -350,7 +345,7 @@ import axios from '../../../plugins/axios'
         parent_mid:'',
         protein: 0,
       },
-      
+      selectedItemId: null,
       payload: []
     }),
 
@@ -423,12 +418,6 @@ import axios from '../../../plugins/axios'
           window.alert('Student Added');
           this.dialog = false
         })
-        // if (this.editedIndex > -1) {
-        //   Object.assign(this.desserts[this.editedIndex], this.editedItem)
-        // } else {
-        //   this.desserts.push(this.editedItem)
-        // }
-        // this.close()
       },
       display() {
         axios.get('get-student').then(res => {
@@ -436,8 +425,12 @@ import axios from '../../../plugins/axios'
           this.students = res.data
         })
       },
-      enrollSubj(){
+      enrollSubj(item){
+         this.editedIndex = this.students.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        // this.load = item
         this.subjDialog = true
+        console.log(this.editedItem.id)
       },
       addField() {
         this.payload.push({
@@ -447,9 +440,29 @@ import axios from '../../../plugins/axios'
         school_year: '',
       })
       },
-      viewpayload(){
-        console.log(this.payload)
-      }
+       removeField(index) {
+      this.payload.splice(index, 1)
+      },
+      submitSubject() {
+        const payloads = this.payload.map((item) => {
+          return {
+            student_id: this.editedItem.id,
+            course_code: item.course_code,
+            course: item.course,
+            unit: item.unit,
+            school_year: item.school_year
+          };
+        });
+
+        console.log(payloads);
+
+        axios.post('insert-subjects', payloads).then (res => {
+          console.log(res.data, ' Response ')
+        })
+      
+      },
+
+      
     },
   }
 </script>

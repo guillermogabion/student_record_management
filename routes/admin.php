@@ -16,9 +16,13 @@ Route::group(['prefix' => '/v1', 'middleware' => ['auth:admin-api']], function (
 
     Route::get('self', 'UserController@self');
     Route::get('user', 'UserController@index');
-    Route::get('index-event', [EventController::class, 'index']);
-    Route::get('/fit', 'ParticipantController@index');
+ 
 
     Route::post('add-student', 'UserController@addRegister');
     Route::get('get-student', 'UserController@displayStudent');
+
+    Route::post('insert-subjects', 'RecordController@store');
+
+
+    Route::get('display-subjects', 'UserController@displaySubjects');
 });
