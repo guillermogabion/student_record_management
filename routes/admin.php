@@ -20,6 +20,7 @@ Route::group(['prefix' => '/v1', 'middleware' => ['auth:admin-api']], function (
 
     Route::post('add-student', 'UserController@addRegister');
     Route::get('get-student', 'UserController@displayStudent');
+    Route::post('edit-student/{id}', 'UserController@editStudent');
 
     Route::post('insert-subjects', 'RecordController@store');
 

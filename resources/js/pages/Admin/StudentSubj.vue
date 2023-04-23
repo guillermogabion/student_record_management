@@ -11,7 +11,13 @@ export default {
     return {
       students: [],
       headers: [
-        { text: "Last Name", value: "last_name" }
+        { text: "Student No", value: "stud_no" },
+        { text: "Last Name", value: "last_name" },
+        { text: "First Name", value: "first_name" },
+        { text: "Middle Name", value: "mid_name" },
+        { text: "Extension on the Name", value: "suffix" },
+        { text: "Sex", value: "sex" },
+        
       ]
     };
   },
@@ -38,7 +44,13 @@ export default {
     const subjectHeaders = Array.from(subjects).slice(0, maxSubjects).map((subject, index) => ({
       text: subject,
       value: `subject_${index + 1}`
-    }));
+    },
+    {
+      text: unit,
+      value: `unit_${index + 1}`
+    }
+    
+    ));
     // Append the subject headers to the existing headers array
     this.headers = [...this.headers, ...subjectHeaders];
   },
@@ -56,16 +68,19 @@ export default {
           const record = this.students[i].record;
           for (let j = 0; j < record.length; j++) {
             const subject = record[j].course;
-            subjects.add(subject);
+            const unit = record[j].unit;
+            subjects.add(subject, unit);
           }
         }
 
         // Generate headers array with one column per subject
         const maxSubjects = this.getMaxSubjects();
-        const subjectHeaders = Array.from(subjects).slice(0, maxSubjects).map((subject, index) => ({
-        text: `Course ${index + 1}`,
-        value: `subject_${index + 1}`
-        }));
+        const subjectHeaders = Array.from(subjects).slice(0, maxSubjects).map((subject, index) => (
+          { text: `Course ${index + 1}`, value: `subject_${index + 1}`}
+          // { text: `Unit ${index + 1}`, value: `unit_${index + 1}`}
+          ));
+
+        
         // Append the subject headers to the existing headers array
         this.headers = [...this.headers, ...subjectHeaders];
       }) 
@@ -89,7 +104,7 @@ export default {
       const numCols = this.headers.length;
       for (let i = 0; i < this.students.length; i++) {
         const student = this.students[i];
-        const row = { last_name: student.last_name };
+        const row = { stud_no: student.stud_no , last_name: student.last_name, first_name: student.first_name, mid_name: student.mid_name, suffix: student.suffix, sex: student.sex };
         for (let j = 0; j < student.record.length; j++) {
           const subject = student.record[j];
           row[`subject_${j+1}`] = subject.course;

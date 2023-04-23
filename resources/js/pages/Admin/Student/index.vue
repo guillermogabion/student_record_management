@@ -93,8 +93,8 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    sm="6"
-                    md="4"
+                    sm="3"
+                    md="3"
                   >
                     <v-text-field
                       v-model="editedItem.stud_no"
@@ -103,8 +103,8 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    sm="6"
-                    md="4"
+                    sm="3"
+                    md="3"
                   >
                     <v-text-field
                       v-model="editedItem.program"
@@ -113,12 +113,22 @@
                   </v-col>
                   <v-col
                     cols="12"
-                    sm="6"
-                    md="4"
+                    sm="3"
+                    md="3"
                   >
                     <v-text-field
                       v-model="editedItem.dobirth"
                       label="Date of Birth"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="3"
+                    md="3"
+                  >
+                    <v-text-field
+                      v-model="editedItem.sex"
+                      label="Sex"
                     ></v-text-field>
                   </v-col>
                    <v-col
@@ -236,7 +246,7 @@
           Add Enrolled Subject
 
           </v-card-title>
-          <v-text-field v-model="editedItem.id" :label="'Course Code'"></v-text-field>
+          <v-text-field v-model="editedItem.id" style="display:none"></v-text-field>
 
           <v-container>
            <div v-for="(payloads, index) in payload" :key="index">
@@ -303,10 +313,13 @@ import axios from '../../../plugins/axios'
       dialogDelete: false,
       subjDialog: false,
       headers: [
+        { text: 'No.', value: 'id' },
         { text: 'Last Name', value: 'last_name' },
         { text: 'First Name', value: 'first_name' },
         { text: 'Middle Initial', value: 'mid_name' },
-        { text: 'Program', value: 'program' },
+        { text: 'Student No.', value: 'stud_no' },
+        { text: 'Birthday', value: 'dobirth' },
+        { text: 'Barangay', value: 'brgy' },
         { text: 'Town', value: 'town' },
         { text: 'Province', value: 'province' },
         { text: 'Actions', value: 'actions', sortable: false },
@@ -413,11 +426,23 @@ import axios from '../../../plugins/axios'
       },
 
       save () {
-        axios.post('add-student', this.editedItem).then(res => {
-          console.log(res)
-          window.alert('Student Added');
-          this.dialog = false
+
+        if (this.editedIndex > -1) {
+            axios.post('edit-student/' + this.editedItem.id, this.editedItem).then(res => {
+            console.log(res)
+            window.alert('Student Updated');
+            this.dialog = false
+            this.display()
         })
+        } else {
+            axios.post('add-student', this.editedItem).then(res => {
+            console.log(res)
+            window.alert('Student Added');
+            this.dialog = false
+            this.display()
+        })
+        }
+      
       },
       display() {
         axios.get('get-student').then(res => {
