@@ -11,6 +11,9 @@ use App\Http\Controllers\ItemController;
 
 Route::group(['prefix' => '/v1'], function () {
     Route::post('login', [UserController::class, 'login'])->name('login');
+    // Route::get('export', 'UserController@export');
+
+
 });
 Route::group(['prefix' => '/v1', 'middleware' => ['auth:admin-api']], function () {
 
@@ -20,10 +23,18 @@ Route::group(['prefix' => '/v1', 'middleware' => ['auth:admin-api']], function (
 
     Route::post('add-student', 'UserController@addRegister');
     Route::get('get-student', 'UserController@displayStudent');
+    Route::get('get-IT', 'UserController@displayIT');
+    Route::get('get-CRIM', 'UserController@displayCrim');
+    Route::get('get-HM', 'UserController@displayHM');
+    Route::get('get-ED', 'UserController@displayED');
+    Route::get('get-CS', 'UserController@displayCS');
     Route::post('edit-student/{id}', 'UserController@editStudent');
 
     Route::post('insert-subjects', 'RecordController@store');
 
 
     Route::get('display-subjects', 'UserController@displaySubjects');
+    Route::post('export', 'UserController@export');
+    Route::post('exportbyprogram', 'UserController@exportByProgram');
+    Route::post('exportList', 'UserController@exportList');
 });

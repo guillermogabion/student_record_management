@@ -22,4 +22,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware('auth:api')->group(function () {
     // Route::get('self', 'UserController@self');
     Route::get('user', 'UserController@index');
+    // Route::get('export', 'UserController@export');
+
 });

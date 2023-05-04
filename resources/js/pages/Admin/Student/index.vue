@@ -1,28 +1,6 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="students"
-    sort-by="calories"
-    class="elevation-1"
-    :search="search"
-  >
-    <template v-slot:top>
-      <v-toolbar
-        flat
-      >
-        <v-toolbar-title>Student Records</v-toolbar-title>
-        <v-divider
-          class="mx-4"
-          inset
-          vertical
-        ></v-divider>
-        <v-text-field
-        append-icon="mdi-magnify"
-        v-model="search"
-        flat
-        ></v-text-field>
-        <v-spacer></v-spacer>
-        <v-dialog
+  <v-card color="basil">
+    <v-dialog
           v-model="dialog"
           width="1000px"
         >
@@ -106,10 +84,11 @@
                     sm="3"
                     md="3"
                   >
-                    <v-text-field
-                      v-model="editedItem.program"
-                      label="Program"
-                    ></v-text-field>
+                      <v-select
+                        v-model="editedItem.program"
+                        :items="programs"
+                        label="Standard"
+                      ></v-select>
                   </v-col>
                   <v-col
                     cols="12"
@@ -226,18 +205,353 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-dialog v-model="dialogDelete" max-width="500px">
-          <v-card>
-            <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-              <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
-              <v-spacer></v-spacer>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-        <v-dialog
+
+    
+    <v-tabs
+      v-model="tab"
+      background-color="transparent"
+      color="basil"
+      grow
+    >
+     
+      <v-tab
+        v-for="item in items"
+        :key="item"
+      >
+        {{ item }}
+      </v-tab>
+    </v-tabs>
+
+    <v-tabs-items v-model="tab">
+      <v-tab-item
+      >
+        <v-card
+          color="basil"
+          flat
+        >
+          <v-card-text>
+            <v-data-table
+              :headers="headers"
+              :items="ed"
+              sort-by="calories"
+              class="elevation-1"
+              :search="search"
+            >
+              <template v-slot:top>
+                <v-toolbar
+                  flat
+                >
+                  <v-text-field
+                  append-icon="mdi-magnify"
+                  v-model="search"
+                  flat
+                  ></v-text-field>
+                  <v-spacer></v-spacer>
+                          
+                        </v-toolbar>
+              </template>
+              <template v-slot:item.actions="{ item }">
+                <v-icon
+                  small
+                  class="mr-2"
+                  @click="enrollSubj(item)"
+                >
+                mdi-notebook
+                </v-icon>
+                <v-icon
+                  small
+                  class="mr-2"
+                  @click="editItem(item)"
+                >
+                  mdi-pencil
+                </v-icon>
+                 <v-icon
+                  small
+                  class="mr-2"
+                  @click="showItem(item)"
+                >
+                  mdi-eye
+                </v-icon>
+              
+              </template>
+              <template v-slot:no-data>
+                <v-btn
+                  color="primary"
+                  @click="display()"
+                >
+                  Reset
+                </v-btn>
+              </template>
+            </v-data-table>
+            
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+      <v-tab-item
+      >
+        <v-card
+          color="basil"
+          flat
+        >
+          <v-card-text>
+            <v-data-table
+              :headers="headers"
+              :items="it"
+              sort-by="calories"
+              class="elevation-1"
+              :search="search"
+            >
+              <template v-slot:top>
+                <v-toolbar
+                  flat
+                >
+                  <v-text-field
+                  append-icon="mdi-magnify"
+                  v-model="search"
+                  flat
+                  ></v-text-field>
+                  <v-spacer></v-spacer>
+                          
+                        </v-toolbar>
+              </template>
+              <template v-slot:item.actions="{ item }">
+                <v-icon
+                  small
+                  class="mr-2"
+                  @click="enrollSubj(item)"
+                >
+                mdi-notebook
+                </v-icon>
+                <v-icon
+                  small
+                  class="mr-2"
+                  @click="editItem(item)"
+                >
+                  mdi-pencil
+                </v-icon>
+                 <v-icon
+                  small
+                  class="mr-2"
+                  @click="showItem(item)"
+                >
+                  mdi-eye
+                </v-icon>
+              
+              </template>
+              <template v-slot:no-data>
+                <v-btn
+                  color="primary"
+                  @click="display()"
+                >
+                  Reset
+                </v-btn>
+              </template>
+            </v-data-table>
+            
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+      <v-tab-item
+      >
+         <v-card
+          color="basil"
+          flat
+        >
+          <v-card-text>
+            <v-data-table
+              :headers="headers"
+              :items="crim"
+              sort-by="calories"
+              class="elevation-1"
+              :search="search"
+            >
+              <template v-slot:top>
+                <v-toolbar
+                  flat
+                >
+                  <v-text-field
+                  append-icon="mdi-magnify"
+                  v-model="search"
+                  flat
+                  ></v-text-field>
+                  <v-spacer></v-spacer>
+                          
+                        </v-toolbar>
+              </template>
+              <template v-slot:item.actions="{ item }">
+                <v-icon
+                  small
+                  class="mr-2"
+                  @click="enrollSubj(item)"
+                >
+                mdi-notebook
+                </v-icon>
+                <v-icon
+                  small
+                  class="mr-2"
+                  @click="editItem(item)"
+                >
+                  mdi-pencil
+                </v-icon>
+                 <v-icon
+                  small
+                  class="mr-2"
+                  @click="showItem(item)"
+                >
+                  mdi-eye
+                </v-icon>
+              
+              </template>
+              <template v-slot:no-data>
+                <v-btn
+                  color="primary"
+                  @click="display()"
+                >
+                  Reset
+                </v-btn>
+              </template>
+            </v-data-table>
+            
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+      <v-tab-item
+      >
+          <v-card
+          color="basil"
+          flat
+        >
+          <v-card-text>
+            <v-data-table
+              :headers="headers"
+              :items="hm"
+              sort-by="calories"
+              class="elevation-1"
+              :search="search"
+            >
+       
+              <template v-slot:top>
+                <v-toolbar
+                  flat
+                >
+                  <v-text-field
+                  append-icon="mdi-magnify"
+                  v-model="search"
+                  flat
+                  ></v-text-field>
+                  <v-spacer></v-spacer>
+                          
+                        </v-toolbar>
+              </template>
+              <template v-slot:item.actions="{ item }">
+                <v-icon
+                  small
+                  class="mr-2"
+                  @click="enrollSubj(item)"
+                >
+                mdi-notebook
+                </v-icon>
+                <v-icon
+                  small
+                  class="mr-2"
+                  @click="editItem(item)"
+                >
+                  mdi-pencil
+                </v-icon>
+                 <v-icon
+                  small
+                  class="mr-2"
+                  @click="showItem(item)"
+                >
+                  mdi-eye
+                </v-icon>
+              
+              </template>
+              <template v-slot:no-data>
+                <v-btn
+                  color="primary"
+                  @click="display()"
+                >
+                  Reset
+                </v-btn>
+              </template>
+            </v-data-table>
+            
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+      <v-tab-item
+      >
+          <v-card
+          color="basil"
+          flat
+        >
+          <v-card-text>
+            <v-data-table
+              :headers="headers"
+              :items="cs"
+              sort-by="calories"
+              class="elevation-1"
+              :search="search"
+            >
+              <template v-slot:top>
+                <v-toolbar
+                  flat
+                >
+                  <v-text-field
+                  append-icon="mdi-magnify"
+                  v-model="search"
+                  flat
+                  ></v-text-field>
+                  <v-spacer></v-spacer>
+                          
+                        </v-toolbar>
+              </template>
+              <template v-slot:item.actions="{ item }">
+                <v-icon
+                  small
+                  class="mr-2"
+                  @click="enrollSubj(item)"
+                >
+                mdi-notebook
+                </v-icon>
+                <v-icon
+                  small
+                  class="mr-2"
+                  @click="editItem(item)"
+                >
+                  mdi-pencil
+                </v-icon>
+                <v-icon
+                  small
+                  class="mr-2"
+                  @click="showItem(item)"
+                >
+                  mdi-eye
+                </v-icon>
+              
+              </template>
+              <template v-slot:no-data>
+                No Records Found
+              </template>
+            </v-data-table>
+            
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+    </v-tabs-items>
+    <v-dialog v-model="dialogDelete" max-width="500px">
+      <v-card>
+        <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
+          <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog
         v-model="subjDialog"
         max-width="700px"
         >
@@ -270,47 +584,103 @@
           </v-container>
         </v-card>
         </v-dialog>
-      </v-toolbar>
-    </template>
-    <template v-slot:item.actions="{ item }">
-      <v-icon
-        small
-        class="mr-2"
-        @click="enrollSubj(item)"
-      >
-      mdi-notebook
-      </v-icon>
-      <v-icon
-        small
-        class="mr-2"
-        @click="editItem(item)"
-      >
-        mdi-pencil
-      </v-icon>
-      <v-icon
-        small
-        @click="deleteItem(item)"
-      >
-        mdi-delete
-      </v-icon>
-    </template>
-    <template v-slot:no-data>
-      <v-btn
-        color="primary"
-        @click="display()"
-      >
-        Reset
-      </v-btn>
-    </template>
-  </v-data-table>
+        <v-dialog
+        v-model="dialogShow"
+        width="750px"
+        >
+          <!-- {{ this.editedItem }} -->
+
+          <v-card
+          
+            width="800px">
+            <v-row>
+              <v-col
+                sm="6"
+                md="6"
+              >
+              <h3 class="ma-2 pa-2">Name : {{ this.editedItem.first_name + ' ' + this.editedItem.last_name}} </h3>
+
+              </v-col>
+              <v-col
+                sm="6"
+                md="6"
+              >
+              <h3 class="ma-2 pa-2">Program : {{ this.editedItem.program }}</h3>
+              </v-col>
+            </v-row>
+            <v-data-table
+              :headers="subjectss"
+              :items="editedItem.record"
+              sort-by="calories"
+              class="elevation-1"
+              :pagination="false"
+              :search="search"
+              :hide-default-footer="true"
+            ></v-data-table>
+          </v-card>
+        </v-dialog>
+        <v-dialog
+        v-model="listDialog"
+        width="400px"
+        >
+          <v-card>
+            <v-card-title>Generate Student List</v-card-title>
+            <v-select
+              :items="itemed"
+              filled
+              label="Select Year"
+              class="pa-2"
+              v-model="payload.year"
+            ></v-select>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" class="pa-2" @click="exportList()">
+                Generate
+              </v-btn>
+            </v-card-actions>
+          
+          </v-card>
+        </v-dialog>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+            <v-btn color="primary" class="pa-2" @click="listDialog = true">
+              Generate Student List
+            </v-btn>
+        </v-card-actions>
+  </v-card>
 </template>
+// <script>
+//   export default {
+//     data () {
+//       return {
+//         tab: null,
+//         items: [
+//           'BEED', 'BSIT', 'BSCRIM', 'BSHM', 'BSCS',
+//         ],
+//         // text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+//       }
+//     },
+//   }
+// </script>
+
 <script>
 import axios from '../../../plugins/axios'
   export default {
     data: () => ({
-    
+
+       tab: null,
+      items: [
+        'BEED', 'BSIT', 'BSCRIM', 'BSHM', 'BSCS',
+      ],
+      itemed: ['2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032', '2033', '2034', '2035', '2036', '2037', '2038', '2039', '2040', '2041', '2042', '2043', '2044', '2045', '2046', '2047', '2048', '2049', '2050'],
+      payload: {
+        year: ''
+      },
+      programs : ['BSIT', 'BSCRIM', 'BEED', 'BSHM', 'BSCS' ],
       dialog: false,
+      dialogShow: false,
       dialogDelete: false,
+      listDialog: false,
       subjDialog: false,
       headers: [
         { text: 'No.', value: 'id' },
@@ -324,8 +694,17 @@ import axios from '../../../plugins/axios'
         { text: 'Province', value: 'province' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
+      subjectss: [
+        { text: 'Descriptive Title', value: 'course' },
+        { text: 'Unit', value: 'unit' },
+      ],
       search: '',
       students: [],
+      it : [],
+      cs : [],
+      crim : [],
+      ed : [],
+      hm : [],
       editedIndex: -1,
       editedItem: {
         last_name: '',
@@ -341,6 +720,7 @@ import axios from '../../../plugins/axios'
         parent_last:'',
         parent_first:'',
         parent_mid:'',
+        record : []
       },
       defaultItem: {
          last_name: '',
@@ -385,16 +765,41 @@ import axios from '../../../plugins/axios'
     //   this.display
     // },
     mounted (){
-      this.display()
+      // this.display()
+      this.displayEd()
+      this.displayIT()
+      this.displayCRIM()
+      this.displayHM()
+      this.displayCS()
     },
 
     methods: {
-      
+      exportList() {
+        axios.post('/exportList', { year: this.payload.year }, {
+            responseType: 'blob', // Set the response type to blob
+        }).then(response => {
+            const url = window.URL.createObjectURL(new Blob([response.data])); // Create a temporary URL for the blob data
+            const link = document.createElement('a'); // Create a new anchor element
+            link.href = url; // Set the href attribute to the temporary URL
+            link.setAttribute('download', 'filename.pdf'); // Set the download attribute to the file name
+            document.body.appendChild(link); // Append the anchor element to the DOM
+            link.click(); // Simulate a click event to trigger the download
+            link.remove(); // Remove the anchor element from the DOM
+          this.enrollmentDialog = false
+        }).catch(error => {
+            console.log(error); // Handle any errors
+        });
+    },
 
       editItem (item) {
         this.editedIndex = this.students.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialog = true
+      },
+      showItem (item) {
+        this.editedIndex = this.students.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.dialogShow = true
       },
 
       deleteItem (item) {
@@ -448,6 +853,36 @@ import axios from '../../../plugins/axios'
         axios.get('get-student').then(res => {
           console.log(res)
           this.students = res.data
+        })
+      },
+      displayEd() {
+        axios.get('get-ED').then(res => {
+          console.log(res)
+          this.ed = res.data
+        })
+      },
+      displayIT() {
+        axios.get('get-IT').then(res => {
+          console.log(res)
+          this.it = res.data
+        })
+      },
+      displayCRIM() {
+        axios.get('get-CRIM').then(res => {
+          console.log(res)
+          this.crim = res.data
+        })
+      },
+      displayHM() {
+        axios.get('get-HM').then(res => {
+          console.log(res)
+          this.hm = res.data
+        })
+      },
+      displayCS() {
+        axios.get('get-CS').then(res => {
+          console.log(res)
+          this.cs = res.data
         })
       },
       enrollSubj(item){
