@@ -133,72 +133,79 @@ class UserController extends Controller
     }
 
     public function export(Request $request)
-    {   
-        {
-
-            $data = User::with('record')
-                ->where('user_type', 0)
-                ->whereYear('created_at', '=', $request->year)
-               ->get();
+    {
+        $data = User::with('record')
+            ->where('user_type', 0)
+            ->whereYear('created_at', '=', $request->year)
+            ->get();
     
-            $pdf = new Dompdf();
-            $pdf->set_paper('landscape');
+        $pdf = new Dompdf();
+        $pdf->set_paper('landscape');
     
-            $html = '<table style="border-collapse: collapse; width: 100%; border-bottom: 1px solid black; padding-bottom: 10px">
-                        <thead>
-                            <tr>
-                                <th style="border: 1px solid black; padding: 10px;">Student No</th>
-                                <th style="border: 1px solid black; padding: 10px;">Last Name</th>
-                                <th style="border: 1px solid black; padding: 10px;">First Name</th>
-                                <th style="border: 1px solid black; padding: 10px;">Middle Name</th>
-                                <th style="border: 1px solid black; padding: 10px;">Name Extension</th>
-                                <th style="border: 1px solid black; padding: 10px;">Gender</th>
-                                <th style="border: 1px solid black; padding: 10px;">Program</th>
-                                <th style="border: 1px solid black; padding: 10px;">Course Code</th>
-                                <th style="border: 1px solid black; padding: 10px;">Unit</th>
-                                <th style="border: 1px solid black; padding: 10px;">Total Unit</th>
-                            </tr>
-                        </thead>
-                        <tbody>';
-
-            foreach ($data as $row) {
-                $num_records = count($row['record']);
-                $total_unit = 0;
-                $html .= '<tr>
-                            <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['stud_no'] . '</td>
-                            <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['last_name'] . '</td>
-                            <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['first_name'] . '</td>
-                            <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['mid_name'] . '</td>
-                            <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['suffix'] . '</td>
-                            <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['sex'] . '</td>
-                            <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['program'] . '</td>
-                            <td style="border: 1px solid black; padding: 10px;">' . $row['record'][0]['course_code'] . '</td>
-                            <td style="border: 1px solid black; padding: 10px; text-align: center;">' . $row['record'][0]['unit'] . '</td>
-                            <td style="border: 1px solid black; padding: 10px; text-align: center;" rowspan="' . $num_records . '">' . $row['record'][0]['unit'] . '</td>
-                        </tr>';
-                $total_unit += $row['record'][0]['unit'];
+        $html = '<table style="border-collapse: collapse; width: 100%; border-bottom: 1px solid black; font-size: 10px; padding-bottom: 10px">
+                    <thead>
+                        <tr>
+                            <th style="border: 1px solid black; padding: 10px;">Student No</th>
+                            <th style="border: 1px solid black; padding: 10px;">Last Name</th>
+                            <th style="border: 1px solid black; padding: 10px;">First Name</th>
+                            <th style="border: 1px solid black; padding: 10px;">Middle Name</th>
+                            <th style="border: 1px solid black; padding: 10px;">Name Extension</th>
+                            <th style="border: 1px solid black; padding: 10px;">Gender</th>
+                            <th style="border: 1px solid black; padding: 10px;">Program</th>
+                            <th style="border: 1px solid black; padding: 10px;">Course Code</th>
+                            <th style="border: 1px solid black; padding: 10px;">Unit</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
     
-                for ($i = 1; $i < $num_records; $i++) {
-                    $html .= '<tr><td style="border: 1px solid black; padding: 10px;">' . $row['record'][$i]['course_code'] . '</td><td style="border: 1px solid black; padding: 10px; text-align: center;">' . $row['record'][$i]['unit'] . '</td></tr>';
-                    $total_unit += $row['record'][$i]['unit'];
+        foreach ($data as $row) {
+            $num_records = count($row['record']);
+            $total_unit = 0;
+    
+            for ($i = 0; $i < $num_records; $i++) {
+                $html .= '<tr>';
+    
+                if ($i === 0) {
+                    $html .= '<td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['stud_no'] . '</td>
+                              <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['last_name'] . '</td>
+                              <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['first_name'] . '</td>
+                              <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['mid_name'] . '</td>
+                              <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['suffix'] . '</td>
+                              <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['sex'] . '</td>
+                              <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['program'] . '</td>';
                 }
-                $html = str_replace('{{total_unit}}', $total_unit, $html);
+    
+                $html .= '<td style="border: 1px solid black; padding: 10px;">' . $row['record'][$i]['course_code'] . '</td>
+                          <td style="border: 1px solid black; padding: 10px; text-align: center;">' . $row['record'][$i]['unit'] . '</td>
+
+                      </tr>';
+                $total_unit += $row['record'][$i]['unit'];
             }
     
-            $html .= '</tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="13" style="border-top: 1px solid black;"></td>
-                            </tr>
-                        </tfoot>
-                    </table>';
-    
-            $pdf->loadHtml($html);
-            $pdf->render();
-    
-            $pdf->stream('filename.pdf');
+            // Insert Total Unit column for each student
+            $html .= '
+                        <td style="border: 1px solid black; padding: 10px; text-align: right;" colspan="8"><strong>Total Unit:</strong></td>
+                        <td style="border: 1px solid black; padding: 10px; text-align: center;"><strong>' . $total_unit . '</strong></td>
+                    ';
+
+            // $html = str_replace('</tr>', 
+            //             '<td style="border: 1px solid black; padding: 10px; text-align: center;"><strong>' . $total_unit . '</strong></td></tr>', $html);
         }
+    
+        $html .= '</tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="9" style="border-top: 1px solid black;"></td>
+                        </tr>
+                    </tfoot>
+                </table>';
+    
+        $pdf->loadHtml($html);
+        $pdf->render();
+    
+        $pdf->stream('filename.pdf');
     }
+    
 
 
     public function exportList(Request $request)
@@ -213,7 +220,7 @@ class UserController extends Controller
             $pdf = new Dompdf();
             $pdf->setPaper('a4', 'landscape');
     
-            $html = '<table style="border-collapse: collapse; width: 100%; border-bottom: 1px solid black; padding-bottom: 50px;">
+            $html = '<table style="font-size: 10px; border-collapse: collapse; width: 100%; border-right: 1px solid black; border-bottom: 1px solid black; padding-bottom: 50px;">
                         <thead>
                             <tr>
                                 <th style="border: 1px solid black; padding: 10px;">No</th>
@@ -234,23 +241,22 @@ class UserController extends Controller
                         </thead>
                         <tbody>';
 
-            foreach ($data as $row) {
-                $num_records = count($row->record);
-                $html .= '<tr>
-                            <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['id'] . '</td>
-                            <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['last_name'] . '</td>
-                            <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['first_name'] . '</td>
-                            <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['mid_name'] . '</td>
-                            <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['suffix'] . '</td>
-                            <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['stud_no'] . '</td>
-                            <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['dobirth'] . '</td>
-                            <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['brgy'] . '</td>
-                            <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['town'] . '</td>
-                            <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['province'] . '</td>
-                            <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['parent_last'] . '</td>
-                            <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['parent_first'] . '</td>
-                            <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['parent_mid'] . '</td>
-                        </tr>';
+            foreach ($data as $user) {
+                $html .= '<tr style="border: 1px solid black;">
+                                <td style="border: 1px solid black; padding: 10px;">' . $user['id'] . '</td>
+                                <td style="border: 1px solid black; padding: 10px;">' . $user['last_name'] . '</td>
+                                <td style="border: 1px solid black; padding: 10px;">' . $user['first_name'] . '</td>
+                                <td style="border: 1px solid black; padding: 10px;">' . $user['mid_name'] . '</td>
+                                <td style="border: 1px solid black; padding: 10px;">' . $user['suffix'] . '</td>
+                                <td style="border: 1px solid black; padding: 10px;">' . $user['stud_no'] . '</td>
+                                <td style="border: 1px solid black; padding: 10px;">' . $user['dobirth'] . '</td>
+                                <td style="border: 1px solid black; padding: 10px;">' . $user['brgy'] . '</td>
+                                <td style="border: 1px solid black; padding: 10px;">' . $user['town'] . '</td>
+                                <td style="border: 1px solid black; padding: 10px;">' . $user['province'] . '</td>
+                                <td style="border: 1px solid black; padding: 10px;">' . $user['parent_last'] . '</td>
+                                <td style="border: 1px solid black; padding: 10px;">' . $user['parent_first'] . '</td>
+                                <td style="border: 1px solid black; padding: 10px;">' . $user['parent_mid'] . '</td>
+                            </tr>';
                
             }
     
@@ -282,63 +288,68 @@ class UserController extends Controller
             $pdf = new Dompdf();
             $pdf->setPaper('a4', 'landscape');
     
-            $html = '<table style="border-collapse: collapse; width: 100%; border-bottom: 1px solid black; padding-bottom: 10px">
-                        <thead>
-                            <tr>
-                                <th style="border: 1px solid black; padding: 10px;">Student No</th>
-                                <th style="border: 1px solid black; padding: 10px;">Last Name</th>
-                                <th style="border: 1px solid black; padding: 10px;">First Name</th>
-                                <th style="border: 1px solid black; padding: 10px;">Middle Name</th>
-                                <th style="border: 1px solid black; padding: 10px;">Name Extension</th>
-                                <th style="border: 1px solid black; padding: 10px;">Gender</th>
-                                <th style="border: 1px solid black; padding: 10px;">Program</th>
-                                <th style="border: 1px solid black; padding: 10px;">Course Code</th>
-                                <th style="border: 1px solid black; padding: 10px;">Unit</th>
-                            </tr>
-                        </thead>
-                        <tbody>';
-                        foreach ($data as $row) {
-                            $num_records = count($row['record']);
-                            $total_unit = 0;
-                            
-                            $html .= '<tr>
-                                        <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['stud_no'] . '</td>
-                                        <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['last_name'] . '</td>
-                                        <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['first_name'] . '</td>
-                                        <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['mid_name'] . '</td>
-                                        <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['suffix'] . '</td>
-                                        <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['sex'] . '</td>
-                                        <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['program'] . '</td>
-                                        <td style="border: 1px solid black; padding: 10px;">' . $row['record'][0]['course_code'] . '</td>
-                                        <td style="border: 1px solid black; padding: 10px; text-align: center;">' . $row['record'][0]['unit'] . '</td>
-                                        <td style="border: 1px solid black; padding: 10px; text-align: center;" rowspan="' . $num_records . '">' . $total_unit . '</td>
-                                        
-                                    </tr>';
-                                    $total_unit += $row['record'][0]['unit'];// accumulate the sum of units
+            $html = '<table style="border-collapse: collapse; width: 100%; border-bottom: 1px solid black; font-size: 10px; padding-bottom: 10px">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid black; padding: 10px;">Student No</th>
+                    <th style="border: 1px solid black; padding: 10px;">Last Name</th>
+                    <th style="border: 1px solid black; padding: 10px;">First Name</th>
+                    <th style="border: 1px solid black; padding: 10px;">Middle Name</th>
+                    <th style="border: 1px solid black; padding: 10px;">Name Extension</th>
+                    <th style="border: 1px solid black; padding: 10px;">Gender</th>
+                    <th style="border: 1px solid black; padding: 10px;">Program</th>
+                    <th style="border: 1px solid black; padding: 10px;">Course Code</th>
+                    <th style="border: 1px solid black; padding: 10px;">Unit</th>
+                </tr>
+            </thead>
+            <tbody>';
 
-                                    for ($i = 1; $i < $num_records; $i++) {
-                                        $html .= '<tr>
-                                            <td style="border: 1px solid black; padding: 10px;">' . $row['record'][$i]['course_code'] . '</td>
-                                            <td style="border: 1px solid black; padding: 10px; text-align: center;">' . $row['record'][$i]['unit'] . '</td>
-                                        </tr>';
-                                        $total_unit += $row['record'][$i]['unit'];
-                                    }
-                                }
-                                $html .= '<td style="border: 1px solid black; padding: 10px; text-align: center;"><strong>' . $total_unit . '</strong></td>';  
-                                // $html = str_replace('<td style="border: 1px solid black; padding: 10px; text-align: center;" rowspan="' . $num_records . '">' . $total_unit . '</td>', '<td style="border: 1px solid black; padding: 10px; text-align: center;" rowspan="' . $num_records . '">' . $total_unit . '</td>', $html);
-    
-            $html .= '</tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="13" style="border-top: 1px solid black;"></td>
-                            </tr>
-                        </tfoot>
-                    </table>';
-    
-            $pdf->loadHtml($html);
-            $pdf->render();
-    
-            $pdf->stream('filename.pdf');
+foreach ($data as $row) {
+    $num_records = count($row['record']);
+    $total_unit = 0;
+
+    for ($i = 0; $i < $num_records; $i++) {
+        $html .= '<tr>';
+
+        if ($i === 0) {
+            $html .= '<td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['stud_no'] . '</td>
+                      <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['last_name'] . '</td>
+                      <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['first_name'] . '</td>
+                      <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['mid_name'] . '</td>
+                      <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['suffix'] . '</td>
+                      <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['sex'] . '</td>
+                      <td style="border: 1px solid black; padding: 10px;" rowspan="' . $num_records . '">' . $row['program'] . '</td>';
+        }
+
+        $html .= '<td style="border: 1px solid black; padding: 10px;">' . $row['record'][$i]['course_code'] . '</td>
+                  <td style="border: 1px solid black; padding: 10px; text-align: center;">' . $row['record'][$i]['unit'] . '</td>
+
+              </tr>';
+        $total_unit += $row['record'][$i]['unit'];
+    }
+
+    // Insert Total Unit column for each student
+    $html .= '
+                <td style="border: 1px solid black; padding: 10px; text-align: right;" colspan="8"><strong>Total Unit:</strong></td>
+                <td style="border: 1px solid black; padding: 10px; text-align: center;"><strong>' . $total_unit . '</strong></td>
+            ';
+
+    // $html = str_replace('</tr>', 
+    //             '<td style="border: 1px solid black; padding: 10px; text-align: center;"><strong>' . $total_unit . '</strong></td></tr>', $html);
+}
+
+$html .= '</tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="9" style="border-top: 1px solid black;"></td>
+                </tr>
+            </tfoot>
+        </table>';
+
+$pdf->loadHtml($html);
+$pdf->render();
+
+$pdf->stream('filename.pdf');
         }
 
        

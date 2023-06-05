@@ -918,6 +918,7 @@ import axios from '../../../plugins/axios'
 
         axios.post('insert-subjects', payloads).then (res => {
           console.log(res.data, ' Response ')
+          this.subjDialog = false
         })
       
       },
