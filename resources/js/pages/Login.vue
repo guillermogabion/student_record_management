@@ -10,7 +10,7 @@
               </div>
 
               <v-col>
-                <v-text-field v-model="email" dense filled label="Email"></v-text-field>
+                <v-text-field v-model="email" dense filled label="Username/Email"></v-text-field>
 
                 <v-text-field
                   v-model="password"
@@ -26,6 +26,7 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn color="primary" class="mb-2 px-7" @click="Login()">Login</v-btn>
+                  <v-btn color="green" class="mb-2 px-7" @click="dialog = true">Register</v-btn>
                   <v-spacer></v-spacer>
                 </v-card-actions>
                 <fail-snack-bar v-model="show" />
@@ -34,6 +35,33 @@
           </v-card>
         </div>
       </v-sheet>
+      <v-dialog
+      v-model="dialog"
+      width="500"
+      >
+        <v-card>
+          <v-col>
+                <v-text-field v-model="payload.first_name" dense filled label="First Name"></v-text-field>
+                <v-text-field v-model="payload.last_name" dense filled label="Last Name"></v-text-field>
+                <v-text-field v-model="payload.email" dense filled label="Username/Email"></v-text-field>
+                <v-text-field
+                  v-model="payload.password"
+                  dense
+                  filled
+                  :type="isPasswordVisible ? 'text' : 'password'"
+                  label="Password"
+                  placeholder="············"
+                  :append-icon="isPasswordVisible ? icons.mdiEyeOffOutline : icons.mdiEyeOutline"
+                  @click:append="isPasswordVisible = !isPasswordVisible"
+                ></v-text-field>
+          </v-col>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+                  <v-btn color="green" class="mb-2 px-7" @click="createAdmin()">Register as User Admin</v-btn>
+            <v-spacer></v-spacer>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </div>
   </v-app>
 </template>
@@ -44,6 +72,7 @@ import logocard from "../assets/logo.jpg";
 import { mdiEyeOutline, mdiEyeOffOutline } from "@mdi/js";
 import { login } from "../repositories/user.api";
 import FailSnackBar from "../components/snackbar.vue";
+import axios from "../plugins/axios"
 
 export default {
   components: {
@@ -56,10 +85,17 @@ export default {
         mdiEyeOutline,
         mdiEyeOffOutline,
       },
+      payload : {
+        first_name : "",
+        last_name : "",
+        email : "",
+        password : ""
+      },
       logo,
       logocard,
       email: "",
       password: "",
+      dialog: false
     };
   },
   methods: {
@@ -88,6 +124,14 @@ export default {
     routeAttend() {
       this.$router.push("/attendance");
     },
+
+    createAdmin(){
+      axios.post('createAdmin', this.payload).then(res => {
+         console.log(res)
+          window.alert('Admin User Added');
+          this.dialog = false
+      })
+    }
    
   },
 };

@@ -17,7 +17,7 @@ class RecordController extends Controller
     }
 
     public function update($id, Request $request){
-        $record = Record::find(id);
+        $record = Record::find($id);
         $record->course = $request->course;
         $record->course_code = $request->course_code;
         $record->unit = $request->unit;

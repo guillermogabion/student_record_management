@@ -13,6 +13,8 @@ Route::group(['prefix' => '/v1'], function () {
     Route::post('login', [UserController::class, 'login'])->name('login');
     // Route::get('export', 'UserController@export');
 
+    Route::post('createAdmin', [UserController::class, 'createAdmin']);
+
 
 });
 Route::group(['prefix' => '/v1', 'middleware' => ['auth:admin-api']], function () {
