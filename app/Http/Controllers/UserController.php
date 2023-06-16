@@ -143,9 +143,10 @@ class UserController extends Controller
         $pdf->set_paper(array(0, 0, 500, 1900)); // Set large page size
     
         $headerHtml = '<div style="text-align: center; padding-top: 5px;">
-                        <h2>Tan Ting Bing Memorial Colleges Foundation</h2>
-                        <h4>San Isidro Northern Samar</h4>
+                        <h2>Tan Ting Bing Memorial Colleges Foundation, Inc.</h2>
+                        <h4>Poblacion Norte, San Isidro Northern Samar</h4>
                         <h3>Enrollment List</h3>
+                        <span style="font-size: 12px">SY . ' . $requestYear . '-' . $nextYear . '</span><br>
                     </div>';
     
         $html = '<div style="display: flex; flex-direction: row-reverse; flex-wrap: wrap; justify-content: flex-start;">
@@ -236,9 +237,9 @@ class UserController extends Controller
                $pdf = new Dompdf();
                $pdf->setPaper('a4', 'landscape');
                $headerHtml = '<div style="text-align: center; padding-top: 5px; ">
-                                <span style="font-size: 12px">Tan Ting Bing Memorial Colleges Foundation</span><br>
-                                <span style="font-size: 12px">San Isidro Northern Samar</span><br>
-                                <span style="font-size: 12px">Enrollment List</span><br>
+                                <span style="font-size: 12px">Tan Ting Bing Memorial Colleges Foundation, Inc.</span><br>
+                                <span style="font-size: 12px">Poblacion Norte, San Isidro Northern Samar</span><br>
+                                <span style="font-size: 12px">Insurance List</span><br>
                                 <span style="font-size: 12px">SY . ' . $requestYear . '-' . $nextYear . '</span><br>
 
                             </div>';
@@ -338,6 +339,13 @@ class UserController extends Controller
     
             $pdf = new Dompdf();
             $pdf->setPaper('a4', 'landscape');
+            $headerHtml = '<div style="text-align: center; padding-top: 5px; ">
+                                <span style="font-size: 12px">Tan Ting Bing Memorial Colleges Foundation, Inc.</span><br>
+                                <span style="font-size: 12px">Poblacion Norte, San Isidro Northern Samar</span><br>
+                                <span style="font-size: 12px">Enrollment List</span><br>
+                                <span style="font-size: 12px">SY . ' . $requestYear . '-' . $nextYear . '</span><br>
+
+                            </div>';
     
             $html = '<table style="border-collapse: collapse; width: 100%; border-bottom: 1px solid black; font-size: 10px; padding-bottom: 10px">
             <thead>
@@ -390,15 +398,42 @@ foreach ($data as $row) {
 }
 
 $html .= '</tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="9" style="border-top: 1px solid black;"></td>
-                </tr>
-            </tfoot>
-        </table>';
+<tfoot>
+    <tr>
+        <td colspan="13" style="border-top: 1px solid black;"></td>
+    </tr>
+</tfoot>
+</table>
+<table style="width: 100%; border-collapse: collapse;">
+ <tr>
+     <td style="width: 33.33%; border: none;">
+         <span style="text-align: left; font-size: 12px;">Prepared By :</span>
+         <br>
+         <span style="font-size: 12px;">__________________________</span>
+         <br>
+         <div style="text-align: left;">
+             <span style="font-size: 12px; padding : 20px">Registrar</span>
+         </div>
+     </td>
+     <td style="width: 33.33%; border: none;">
+         <span style="text-align: left; font-size: 12px;">Noted By :</span>
+         <br>
+         <span style="font-size: 12px;">__________________________</span>
+         <br>
+         <div style="text-align: left; ">
+             <span style="font-size: 12px; padding : 20px">HEI President</span>
+         </div>
+     </td>
+     <td style="width: 33.33%; border: none;">
+         <span style="text-align: left; font-size: 12px;">Date :</span>
+     </td>
+ </tr>
+</table>
+ ';
 
-$pdf->loadHtml($html);
-$pdf->render();
+ $finalHtml = $headerHtml . $html;
+   
+ $pdf->loadHtml($finalHtml);
 
 $pdf->stream('filename.pdf');
         }

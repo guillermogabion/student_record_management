@@ -12,6 +12,7 @@
         color="primary"
         size="40"
         :src="logocard"
+        style="border-radius : 50%"
         >
         </v-img>
     </v-list-item>
@@ -45,7 +46,7 @@
    </v-navigation-drawer>
 </template>
 <script>
-import logocard from '../../assets/logo.jpg'
+import logocard from '../../assets/logos.jpg'
 export default {
     data : () => ({
         logocard,

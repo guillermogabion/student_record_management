@@ -6,7 +6,7 @@
           <v-card width="500" class="mx-auto" elevation="3" color="white">
             <v-card>
               <div style="padding-top: 4%">
-                <v-img contain :src="logocard" max-height="30%" width="50%" class="mx-auto" />
+                <v-img contain :src="logocard" max-height="30%" width="50%" class="mx-auto" style="border-radius : 50%" />
               </div>
 
               <v-col>
@@ -68,7 +68,7 @@
 
 <script>
 import logo from "../assets/logo.jpg";
-import logocard from "../assets/logo.jpg";
+import logocard from "../assets/logos.jpg";
 import { mdiEyeOutline, mdiEyeOffOutline } from "@mdi/js";
 import { login } from "../repositories/user.api";
 import FailSnackBar from "../components/snackbar.vue";

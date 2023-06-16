@@ -107,7 +107,7 @@
                   >
                     <v-text-field
                       v-model="editedItem.sex"
-                      label="Sex"
+                      label="Gender"
                     ></v-text-field>
                   </v-col>
                    <v-col
