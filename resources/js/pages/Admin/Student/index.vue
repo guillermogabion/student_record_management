@@ -251,27 +251,49 @@
                         </v-toolbar>
               </template>
               <template v-slot:item.actions="{ item }">
-                <v-icon
+                <!-- <v-icon
                   small
                   class="mr-2"
                   @click="enrollSubj(item)"
                 >
                 mdi-notebook
-                </v-icon>
-                <v-icon
-                  small
-                  class="mr-2"
-                  @click="editItem(item)"
-                >
-                  mdi-pencil
-                </v-icon>
-                 <v-icon
+                </v-icon> -->
+                <v-btn
+                    small
+                    class="mr-2"
+                     @click="enrollSubj(item)"
+                      color="transparent"
+                    elevation="0"
+                  >
+                    <!-- ADd  -->
+                    <img :src="notebook" alt="NoteBook Icon"  width="15px" height="15px">
+                  </v-btn>
+                  <v-btn
+                    small
+                    class="mr-2"
+                    @click="editItem(item)"
+                    color="transparent"
+                    elevation="0"
+                  >
+                    <!-- Edit -->
+                    <img :src="pencil" alt="Pencil Icon" width="15px" height="15px">
+                  </v-btn>
+                 <!-- <v-icon
                   small
                   class="mr-2"
                   @click="showItem(item)"
                 >
                   mdi-eye
-                </v-icon>
+                </v-icon> -->
+                 <v-btn
+                    small
+                    class="mr-2"
+                   @click="showItem(item)"
+                  color="transparent"
+                    elevation="0"
+                  >
+                     <img :src="eye" alt="Eye Icon"  width="15px" height="15px">
+                  </v-btn>
               
               </template>
               <template v-slot:no-data>
@@ -315,28 +337,42 @@
                         </v-toolbar>
               </template>
               <template v-slot:item.actions="{ item }">
-                <v-icon
-                  small
-                  class="mr-2"
-                  @click="enrollSubj(item)"
-                >
-                mdi-notebook
-                </v-icon>
-                <v-icon
-                  small
-                  class="mr-2"
-                  @click="editItem(item)"
-                >
-                  mdi-pencil
-                </v-icon>
-                 <v-icon
+                 <v-btn
+                    small
+                    class="mr-2"
+                     @click="enrollSubj(item)"
+                      color="transparent"
+                    elevation="0"
+                  >
+                    <!-- ADd  -->
+                    <img :src="notebook" alt="NoteBook Icon"  width="15px" height="15px">
+                  </v-btn>
+                  <v-btn
+                    small
+                    class="mr-2"
+                    @click="editItem(item)"
+                    color="transparent"
+                    elevation="0"
+                  >
+                    <!-- Edit -->
+                    <img :src="pencil" alt="Pencil Icon"  width="15px" height="15px">
+                  </v-btn>
+                 <!-- <v-icon
                   small
                   class="mr-2"
                   @click="showItem(item)"
                 >
                   mdi-eye
-                </v-icon>
-              
+                </v-icon> -->
+                 <v-btn
+                    small
+                    class="mr-2"
+                   @click="showItem(item)"
+                  color="transparent"
+                    elevation="0"
+                  >
+                     <img :src="eye" alt="Eye Icon"  width="15px" height="15px">
+                  </v-btn>
               </template>
               <template v-slot:no-data>
                 <v-btn
@@ -379,27 +415,42 @@
                         </v-toolbar>
               </template>
               <template v-slot:item.actions="{ item }">
-                <v-icon
-                  small
-                  class="mr-2"
-                  @click="enrollSubj(item)"
-                >
-                mdi-notebook
-                </v-icon>
-                <v-icon
-                  small
-                  class="mr-2"
-                  @click="editItem(item)"
-                >
-                  mdi-pencil
-                </v-icon>
-                 <v-icon
+                 <v-btn
+                    small
+                    class="mr-2"
+                     @click="enrollSubj(item)"
+                      color="transparent"
+                    elevation="0"
+                  >
+                    <!-- ADd  -->
+                    <img :src="notebook" alt="NoteBook Icon"  width="15px" height="15px">
+                  </v-btn>
+                  <v-btn
+                    small
+                    class="mr-2"
+                    @click="editItem(item)"
+                    color="transparent"
+                    elevation="0"
+                  >
+                    <!-- Edit -->
+                    <img :src="pencil" alt="Pencil Icon"  width="15px" height="15px">
+                  </v-btn>
+                 <!-- <v-icon
                   small
                   class="mr-2"
                   @click="showItem(item)"
                 >
                   mdi-eye
-                </v-icon>
+                </v-icon> -->
+                 <v-btn
+                    small
+                    class="mr-2"
+                   @click="showItem(item)"
+                  color="transparent"
+                    elevation="0"
+                  >
+                     <img :src="eye" alt="Eye Icon"  width="15px" height="15px">
+                  </v-btn>
               
               </template>
               <template v-slot:no-data>
@@ -444,28 +495,42 @@
                         </v-toolbar>
               </template>
               <template v-slot:item.actions="{ item }">
-                <v-icon
-                  small
-                  class="mr-2"
-                  @click="enrollSubj(item)"
-                >
-                mdi-notebook
-                </v-icon>
-                <v-icon
-                  small
-                  class="mr-2"
-                  @click="editItem(item)"
-                >
-                  mdi-pencil
-                </v-icon>
-                 <v-icon
+                 <v-btn
+                    small
+                    class="mr-2"
+                     @click="enrollSubj(item)"
+                      color="transparent"
+                    elevation="0"
+                  >
+                    <!-- ADd  -->
+                    <img :src="notebook" alt="NoteBook Icon"  width="15px" height="15px">
+                  </v-btn>
+                  <v-btn
+                    small
+                    class="mr-2"
+                    @click="editItem(item)"
+                    color="transparent"
+                    elevation="0"
+                  >
+                    <!-- Edit -->
+                    <img :src="pencil" alt="Pencil Icon"  width="15px" height="15px">
+                  </v-btn>
+                 <!-- <v-icon
                   small
                   class="mr-2"
                   @click="showItem(item)"
                 >
                   mdi-eye
-                </v-icon>
-              
+                </v-icon> -->
+                 <v-btn
+                    small
+                    class="mr-2"
+                   @click="showItem(item)"
+                  color="transparent"
+                    elevation="0"
+                  >
+                     <img :src="eye" alt="Eye Icon"  width="15px" height="15px">
+                  </v-btn>
               </template>
               <template v-slot:no-data>
                 <v-btn
@@ -508,28 +573,42 @@
                         </v-toolbar>
               </template>
               <template v-slot:item.actions="{ item }">
-                <v-icon
-                  small
-                  class="mr-2"
-                  @click="enrollSubj(item)"
-                >
-                mdi-notebook
-                </v-icon>
-                <v-icon
-                  small
-                  class="mr-2"
-                  @click="editItem(item)"
-                >
-                  mdi-pencil
-                </v-icon>
-                <v-icon
+                 <v-btn
+                    small
+                    class="mr-2"
+                     @click="enrollSubj(item)"
+                      color="transparent"
+                    elevation="0"
+                  >
+                    <!-- ADd  -->
+                    <img :src="notebook" alt="NoteBook Icon"  width="15px" height="15px">
+                  </v-btn>
+                  <v-btn
+                    small
+                    class="mr-2"
+                    @click="editItem(item)"
+                    color="transparent"
+                    elevation="0"
+                  >
+                    <!-- Edit -->
+                    <img :src="pencil" alt="Pencil Icon"  width="15px" height="15px">
+                  </v-btn>
+                 <!-- <v-icon
                   small
                   class="mr-2"
                   @click="showItem(item)"
                 >
                   mdi-eye
-                </v-icon>
-              
+                </v-icon> -->
+                 <v-btn
+                    small
+                    class="mr-2"
+                   @click="showItem(item)"
+                  color="transparent"
+                    elevation="0"
+                  >
+                     <img :src="eye" alt="Eye Icon"  width="15px" height="15px">
+                  </v-btn>
               </template>
               <template v-slot:no-data>
                 No Records Found
@@ -665,9 +744,14 @@
 
 <script>
 import axios from '../../../plugins/axios'
+import pencil from '../../../assets/pencil.png'
+import notebook from '../../../assets/notebook.png'
+import eye from '../../../assets/eye.png'
   export default {
     data: () => ({
-
+      pencil,
+      notebook,
+      eye,
        tab: null,
       items: [
         'BEED', 'BSIT', 'BSCRIM', 'BSHM', 'BSCS',
@@ -781,7 +865,7 @@ import axios from '../../../plugins/axios'
             const url = window.URL.createObjectURL(new Blob([response.data])); // Create a temporary URL for the blob data
             const link = document.createElement('a'); // Create a new anchor element
             link.href = url; // Set the href attribute to the temporary URL
-            link.setAttribute('download', 'filename.pdf'); // Set the download attribute to the file name
+            link.setAttribute('download', 'studentInsurance.pdf'); // Set the download attribute to the file name
             document.body.appendChild(link); // Append the anchor element to the DOM
             link.click(); // Simulate a click event to trigger the download
             link.remove(); // Remove the anchor element from the DOM

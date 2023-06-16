@@ -231,82 +231,98 @@ class UserController extends Controller
                 ->whereYear('created_at', '=', $request->year)
                ->get();
     
+               $requestYear = $request->year;
+               $nextYear = $requestYear + 1;
                $pdf = new Dompdf();
-               $pdf->set_paper(array(0, 0, 500, 1000)); // Set large page size
-           
-               $headerHtml = '<div style="text-align: center; padding-top: 5px;">
-                               <h2>Tan Ting Bing Memorial Colleges Foundation</h2>
-                               <h4>San Isidro Northern Samar</h4>
-                               <h3>Enrollment List</h3>
-                           </div>';
-           
-               $html = '<div style="display: flex; flex-direction: row-reverse; flex-wrap: wrap; justify-content: flex-start;">
-                           <table style="border-collapse: collapse; width: 100%; border-bottom: 1px solid black; font-size: 8px; padding-bottom: 10px">
-                               <thead style="border: 1px solid black; padding: 2px;">
-                                   <tr>
-                                       <th style="border: 1px solid black; padding: 2px;">Student No</th>
-                                       <th style="border: 1px solid black; padding: 2px;">Last Name</th>
-                                       <th style="border: 1px solid black; padding: 2px;">First Name</th>
-                                       <th style="border: 1px solid black; padding: 2px;">Middle Name</th>
-                                       <th style="border: 1px solid black; padding: 2px;">Name Extension</th>
-                                       <th style="border: 1px solid black; padding: 2px;">Gender</th>
-                                       <th style="border: 1px solid black; padding: 2px;">Program</th>
-                                       <th style="border: 1px solid black; padding: 2px;  text-align: right;">Course Code</th>
-                                       <th style="border: 1px solid black; padding: 2px;  text-align:right ;">Unit</th>
-                                   </tr>
-                               </thead>
-                               <tbody>';
-           
-               foreach ($data as $row) {
-                   $num_records = count($row['record']);
-                   $total_unit = 0;
-           
-                   for ($i = 0; $i < $num_records; $i++) {
-                       $html .= '<tr>';
-           
-                       if ($i === 0) {
-                           $html .= '<td style="border: 1px solid black; padding: 2px;" rowspan="' . $num_records . '">' . $row['stud_no'] . '</td>
-                                     <td style="border: 1px solid black; padding: 2px;" rowspan="' . $num_records . '">' . $row['last_name'] . '</td>
-                                     <td style="border: 1px solid black; padding: 2px;" rowspan="' . $num_records . '">' . $row['first_name'] . '</td>
-                                     <td style="border: 1px solid black; padding: 2px;" rowspan="' . $num_records . '">' . $row['mid_name'] . '</td>
-                                     <td style="border: 1px solid black; padding: 2px;" rowspan="' . $num_records . '">' . $row['suffix'] . '</td>
-                                     <td style="border: 1px solid black; padding: 2px;" rowspan="' . $num_records . '">' . $row['sex'] . '</td>
-                                     <td style="border: 1px solid black; padding: 2px;" rowspan="' . $num_records . '">' . $row['program'] . '</td>';
-                       }
-           
-                       $html .= '<td style="border: 1px solid black; padding: 2px; text-align:right">' . $row['record'][$i]['course_code'] . '</td>
-                                 <td style="border: 1px solid black; padding: 2px;  text-align:right">' . $row['record'][$i]['unit'] . '</td>
-           
-                             </tr>';
-                       $total_unit += $row['record'][$i]['unit'];
-                   }
-           
-                   // Insert Total Unit column for each student
-                   $html .= '
-                               <td style="border: 1px solid black; padding: 2px; text-align: right;" colspan="8"><strong>Total Unit:</strong></td>
-                               <td style="border: 1px solid black; padding: 2px; text-align: center;"><strong>' . $total_unit . '</strong></td>
-                           ';
+               $pdf->setPaper('a4', 'landscape');
+               $headerHtml = '<div style="text-align: center; padding-top: 5px; ">
+                                <span style="font-size: 12px">Tan Ting Bing Memorial Colleges Foundation</span><br>
+                                <span style="font-size: 12px">San Isidro Northern Samar</span><br>
+                                <span style="font-size: 12px">Enrollment List</span><br>
+                                <span style="font-size: 12px">SY . ' . $requestYear . '-' . $nextYear . '</span><br>
+
+                            </div>';
+                
+               $html = '<table style="font-size: 10px; border-collapse: collapse; width: 100%; border-right: 1px solid black; border-bottom: 1px solid black; padding-bottom: 50px;">
+                           <thead>
+                               <tr>
+                                   <th style="border: 1px solid black; padding: 10px;">No</th>
+                                   <th style="border: 1px solid black; padding: 10px;">Last Name</th>
+                                   <th style="border: 1px solid black; padding: 10px;">First Name</th>
+                                   <th style="border: 1px solid black; padding: 10px;">Middle Name</th>
+                                   <th style="border: 1px solid black; padding: 10px;">Name Extension</th>
+                                   <th style="border: 1px solid black; padding: 10px;">Student Number</th>
+                                   <th style="border: 1px solid black; padding: 10px;">Date of Birth</th>
+                                   <th style="border: 1px solid black; padding: 10px;">Brgy/Street</th>
+                                   <th style="border: 1px solid black; padding: 10px;">Town</th>
+                                   <th style="border: 1px solid black; padding: 10px;">Province</th>
+                                   <th style="border: 1px solid black; padding: 10px;">Parent LastName</th>
+                                   <th style="border: 1px solid black; padding: 10px;">Parent FirstName</th>
+                                   <th style="border: 1px solid black; padding: 10px;">Parent Middle Name</th>
+                             
+                               </tr>
+                           </thead>
+                           <tbody>';
+   
+               foreach ($data as $user) {
+                   $html .= '<tr style="border: 1px solid black;">
+                                   <td style="border: 1px solid black; padding: 10px;">' . $user['id'] . '</td>
+                                   <td style="border: 1px solid black; padding: 10px;">' . $user['last_name'] . '</td>
+                                   <td style="border: 1px solid black; padding: 10px;">' . $user['first_name'] . '</td>
+                                   <td style="border: 1px solid black; padding: 10px;">' . $user['mid_name'] . '</td>
+                                   <td style="border: 1px solid black; padding: 10px;">' . $user['suffix'] . '</td>
+                                   <td style="border: 1px solid black; padding: 10px;">' . $user['stud_no'] . '</td>
+                                   <td style="border: 1px solid black; padding: 10px;">' . $user['dobirth'] . '</td>
+                                   <td style="border: 1px solid black; padding: 10px;">' . $user['brgy'] . '</td>
+                                   <td style="border: 1px solid black; padding: 10px;">' . $user['town'] . '</td>
+                                   <td style="border: 1px solid black; padding: 10px;">' . $user['province'] . '</td>
+                                   <td style="border: 1px solid black; padding: 10px;">' . $user['parent_last'] . '</td>
+                                   <td style="border: 1px solid black; padding: 10px;">' . $user['parent_first'] . '</td>
+                                   <td style="border: 1px solid black; padding: 10px;">' . $user['parent_mid'] . '</td>
+                               </tr>';
+   
                }
-           
+   
                $html .= '</tbody>
-                       <tfoot>
-                           <tr>
-                               <td colspan="9" style="border-top: 1px solid black;"></td>
-                           </tr>
-                       </tfoot>
-                   </table>
-               </div>';
-           
+                           <tfoot>
+                               <tr>
+                                   <td colspan="13" style="border-top: 1px solid black;"></td>
+                               </tr>
+                           </tfoot>
+                       </table>
+                       <table style="width: 100%; border-collapse: collapse;">
+                            <tr>
+                                <td style="width: 33.33%; border: none;">
+                                    <span style="text-align: left; font-size: 12px;">Prepared By :</span>
+                                    <br>
+                                    <span style="font-size: 12px;">__________________________</span>
+                                    <br>
+                                    <div style="text-align: left;">
+                                        <span style="font-size: 12px; padding : 20px">Registrar</span>
+                                    </div>
+                                </td>
+                                <td style="width: 33.33%; border: none;">
+                                    <span style="text-align: left; font-size: 12px;">Noted By :</span>
+                                    <br>
+                                    <span style="font-size: 12px;">__________________________</span>
+                                    <br>
+                                    <div style="text-align: left; ">
+                                        <span style="font-size: 12px; padding : 20px">HEI President</span>
+                                    </div>
+                                </td>
+                                <td style="width: 33.33%; border: none;">
+                                    <span style="text-align: left; font-size: 12px;">Date :</span>
+                                </td>
+                            </tr>
+                        </table>
+                            ';
+
                $finalHtml = $headerHtml . $html;
-           
-               $pdf->set_option('isHtml5ParserEnabled', true);
-               $pdf->set_option('isRemoteEnabled', true);
-               $pdf->set_option('isPhpEnabled', true);
-               $pdf->set_option('autoScriptToSize', true);
+   
                $pdf->loadHtml($finalHtml);
                $pdf->render();
-           
-               $pdf->stream('filename.pdf');
+   
+               $pdf->stream('studentInsurance.pdf');
         }
     }
 
