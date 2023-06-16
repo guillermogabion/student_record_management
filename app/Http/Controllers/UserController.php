@@ -141,7 +141,9 @@ class UserController extends Controller
     
         $pdf = new Dompdf();
         $pdf->set_paper(array(0, 0, 500, 1900)); // Set large page size
-    
+        
+        $requestYear = $request->year;
+        $nextYear = $requestYear + 1;
         $headerHtml = '<div style="text-align: center; padding-top: 5px;">
                         <h2>Tan Ting Bing Memorial Colleges Foundation, Inc.</h2>
                         <h4>Poblacion Norte, San Isidro Northern Samar</h4>
@@ -339,6 +341,9 @@ class UserController extends Controller
     
             $pdf = new Dompdf();
             $pdf->setPaper('a4', 'landscape');
+            
+            $requestYear = $request->year;
+            $nextYear = $requestYear + 1;
             $headerHtml = '<div style="text-align: center; padding-top: 5px; ">
                                 <span style="font-size: 12px">Tan Ting Bing Memorial Colleges Foundation, Inc.</span><br>
                                 <span style="font-size: 12px">Poblacion Norte, San Isidro Northern Samar</span><br>
